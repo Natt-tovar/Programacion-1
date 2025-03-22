@@ -1,0 +1,62 @@
+from abc import ABC, abstractmethod
+
+class MetodoDePago(ABC):
+    def __init__(self, usuario, cantidad, fecha):
+     self.usuario = usuario
+     self.cantidad = cantidad
+     self.fecha = fecha
+     
+
+    @abstractmethod
+    def realizar_pago(self):
+        pass
+
+class Nequi(MetodoDePago):
+     def realizar_pago(self):
+        return f"El Usuario: {self.usuario}, Realizo el pago de: {self.cantidad}, Mediante: Nequi, El dia:{self.fecha}"
+        
+class DaviPlata(MetodoDePago):
+    def __init__(self, usuario, cantidad, fecha, estado):
+        super().__init__(usuario, cantidad, fecha)
+        self.estado = estado
+
+    def realizar_pago(self):
+        return f"El Usuario: {self.usuario}, Realizo el pago de: {self.cantidad}, Mediante: DaviPlata, El dia: {self.fecha}, Estado del pago: {self.estado}"
+
+class PSE(MetodoDePago):
+     def realizar_pago(self):
+        return f"El Usuario: {self.usuario}, Realizo el pago de: {self.cantidad}, Mediante: PSE, El dia:{self.fecha}"
+
+class TarjetaCredito(MetodoDePago):
+    def __init__(self, usuario, cantidad, fecha, codigo):
+        super().__init__(usuario, cantidad, fecha)
+        self.codigo = codigo
+     
+    def realizar_pago(self):
+        return f"El Usuario: {self.usuario}, Realizo una compra de: {self.cantidad}, Mediante: TarjetaCredito, Numero de tarjeta: {self.codigo} El dia:{self.fecha}"
+
+class TarjetaDebito(MetodoDePago):
+    def __init__(self, usuario, cantidad, fecha, codigo):
+        super().__init__(usuario, cantidad, fecha)
+        self.codigo = codigo
+     
+    def realizar_pago(self):
+        return f"El Usuario: {self.usuario}, Realizo el retiro de: {self.cantidad}, Mediante: TarjetaDebito, Numero de tarjeta: {self.codigo} El dia:{self.fecha}"
+
+class Efectivo(MetodoDePago):
+     def realizar_pago(self):
+        return f"El Usuario: {self.usuario}, Realizo el pago de: {self.cantidad}, Mediante: Efectivo, El dia:{self.fecha}"    
+
+nequi = Nequi("Natalia Tovar", "18.000", "04/04/2025")
+daviplata = DaviPlata("Pablo Perez", "350.000", "03/23/2025", "Recibido")
+pse = PSE("Camila Sanches", "5.000", "03/21/2025")
+tarjetacredito = TarjetaCredito("Sandra Milena", "750.000", "02/11/2025", "0102-1020")
+tarjetadebito = TarjetaDebito("Duvan Torres", "100.000", "03/22/2025", "1132-0100")
+efectivo = Efectivo("Sofia Aldana", "23.000", "03/22/2025")
+
+print(nequi.realizar_pago())
+print(daviplata.realizar_pago())
+print(pse.realizar_pago())
+print(tarjetacredito.realizar_pago())
+print(tarjetadebito.realizar_pago())
+print(efectivo.realizar_pago())
