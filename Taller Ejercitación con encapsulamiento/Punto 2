@@ -1,0 +1,23 @@
+class CuentaBancaria:
+    def __init__(self, saldo_principal):  
+        self.__saldo = saldo_principal    
+
+    def get_saldo(self):  
+        return self.__saldo
+
+    def set_saldo(self, deposito):  
+        if deposito > 0:
+            self.__saldo += deposito
+            print(f"Depósito exitoso de ${deposito}")
+        else:
+            print("El depósito debe ser mayor que cero.")
+
+cuenta = CuentaBancaria(1000000)
+
+print("Saldo principal:", cuenta.get_saldo())
+
+
+cuenta.set_saldo(50000)
+
+
+print("saldo final:", cuenta.get_saldo())
