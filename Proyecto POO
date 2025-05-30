@@ -1,0 +1,142 @@
+from abc import ABC, abstractmethod
+
+# Clase base abstracta
+class Producto(ABC):
+    def __init__(self, nombre, precio, descuento=0):
+        self._nombre = nombre
+        self._precio = precio
+        self._descuento = descuento
+
+    # Encapsulamiento - getters y setters
+    @property
+    def nombre(self):
+        return self._nombre
+
+    @nombre.setter
+    def nombre(self, valor):
+        self._nombre = valor
+
+    @property
+    def precio(self):
+        return self._precio
+
+    @precio.setter
+    def precio(self, valor):
+        self._precio = valor
+
+    @property
+    def descuento(self):
+        return self._descuento
+
+    @descuento.setter
+    def descuento(self, valor):
+        self._descuento = valor
+
+    def getPrecioFinal(self):
+        return self._precio * (1 - self._descuento / 100)
+
+    @abstractmethod
+    def mostrarDetalle(self):
+        pass
+
+# Clase Heredada - Electrónico
+class Electronico(Producto):
+    def __init__(self, nombre, precio, garantia, marca, descuento=0):
+        super().__init__(nombre, precio, descuento)
+        self._garantia = garantia
+        self._marca = marca
+
+    @property
+    def garantia(self):
+        return self._garantia
+
+    @garantia.setter
+    def garantia(self, valor):
+        self._garantia = valor
+
+    @property
+    def marca(self):
+        return self._marca
+
+    @marca.setter
+    def marca(self, valor):
+        self._marca = valor
+
+    def mostrarDetalle(self):
+        return (f"Electrónico: {self.nombre}, Marca: {self.marca}, Precio: ${self.precio:.2f}, "
+                f"Descuento: {self.descuento}%, Garantía: {self.garantia} años, Precio Final: ${self.getPrecioFinal():.2f}")
+
+# Clase Heredada - Ropa
+class Ropa(Producto):
+    def __init__(self, nombre, precio, talla, color, descuento=0):
+        super().__init__(nombre, precio, descuento)
+        self._talla = talla
+        self._color = color
+
+    @property
+    def talla(self):
+        return self._talla
+
+    @talla.setter
+    def talla(self, valor):
+        self._talla = valor
+
+    @property
+    def color(self):
+        return self._color
+
+    @color.setter
+    def color(self, valor):
+        self._color = valor
+
+    def mostrarDetalle(self):
+        return (f"Ropa: {self.nombre}, Talla: {self.talla}, Color: {self.color}, Precio: ${self.precio:.2f}, "
+                f"Descuento: {self.descuento}%, Precio Final: ${self.getPrecioFinal():.2f}")
+
+# Clase Cliente
+class Cliente:
+    def __init__(self, nombre, direccion):
+        self._nombre = nombre
+        self._direccion = direccion
+
+    @property
+    def nombre(self):
+        return self._nombre
+
+    @property
+    def direccion(self):
+        return self._direccion
+
+# Clase Pedido
+class Pedido:
+    def __init__(self, cliente):
+        self._cliente = cliente
+        self._productos = []
+
+    def agregarProducto(self, producto):
+        self._productos.append(producto)
+
+    def mostrarDetallePedido(self):
+        print(f"Pedido de: {self._cliente.nombre}")
+        total = 0
+        for p in self._productos:
+            print(p.mostrarDetalle())
+            total += p.getPrecioFinal()
+        print(f"Total a pagar: ${total:.2f}")
+
+# Ejemplo de uso
+if __name__ == "__main__":
+    # Crear productos
+    telefono = Electronico("Smartphone XYZ", 500, 2, "MarcaA", 10)
+    camisa = Ropa("Camisa Polo", 40, "L", "Azul", 5)
+
+    # Crear cliente
+    cliente1 = Cliente("Juan Pérez", "Calle Falsa 123")
+
+    # Crear pedido
+    pedido1 = Pedido(cliente1)
+    pedido1.agregarProducto(telefono)
+    pedido1.agregarProducto(camisa)
+
+    # Mostrar detalles del pedido
+    pedido1.mostrarDetallePedido()
